@@ -6,14 +6,15 @@ import { useState } from "react";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const router = useRouter();
 
+  //login
   async function handleLogin(e) {
     e.preventDefault();
 
+    //fetches the backend route
     const response = await fetch("/api/users/login", {
       method: "POST",
 
@@ -23,6 +24,7 @@ export default function Login() {
     if (info.error) {
       return setError(info.error);
     }
+    //refresh page and go to another page
     router.push("/");
     router.refresh();
   }

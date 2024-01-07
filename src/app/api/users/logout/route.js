@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 export async function POST() {
   try {
     const cookieStore = cookies();
+
+    //delete the cookie
     cookieStore.delete("token");
 
     return NextResponse.json({

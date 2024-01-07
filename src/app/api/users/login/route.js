@@ -17,10 +17,12 @@ export async function POST(req, res) {
       });
     }
 
+    //check if user exists
     const user = await prisma.user.findFirst({
       where: { username },
     });
 
+    //if user does not exist post error message
     if (!user) {
       return NextResponse.json({
         success: false,
@@ -37,11 +39,13 @@ export async function POST(req, res) {
       });
     }
 
+    //signs the JWT token https://www.linode.com/docs/guides/how-to-authenticate-using-jwt/
     const token = jwt.sign(
       { userId: user.id, username },
       process.env.JWT_SECRET
     );
 
+    //creates the cookie by setting the token
     cookieStore.set("token", token);
   } catch (error) {
     return NextResponse.json({ success: false, error: error.message });

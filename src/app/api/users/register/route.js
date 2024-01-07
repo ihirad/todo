@@ -9,7 +9,7 @@ export async function POST(req, res) {
     const cookieStore = cookies();
     const { username, password } = await req.json();
 
-    //didnt provide username or password user recieves error msg
+    //If user did not provide username or password user recieves error msg
     if (!username || !password) {
       return NextResponse.json({
         success: false,
@@ -17,12 +17,14 @@ export async function POST(req, res) {
       });
     }
 
-    //
+    //check if user exists
     const userExists = await prisma.user.findFirst({
       where: {
         username,
       },
     });
+
+    //if user does not exist post error message
     if (userExists) {
       return NextResponse.json({
         success: false,
